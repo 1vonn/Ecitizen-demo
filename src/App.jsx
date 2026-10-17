@@ -33,14 +33,60 @@ function App() {
   }
 
   async function handleAuth(event) {
-    event.preventDefault(); setLoading(true); setAuthMessage('')
-    if (!supabase) { setAuthMessage('Supabase is not configured in this preview.'); setLoading(false); return }
-    const result = authMode === 'signin'
-      ? await supabase.auth.signInWithPassword({ email: authForm.email, password: authForm.password })
-      : await supabase.auth.signUp({ email: authForm.email, password: authForm.password, options: { data: { full_name: authForm.fullName }, emailRedirectTo: window.location.origin } })
-    if (result.error) setAuthMessage(authMode === 'signin' ? 'Invalid email or password.' : result.error.message.includes('already') ? 'An account with this email already exists.' : result.error.message)
-    else if (authMode === 'signup') setAuthMessage('Account created. Check your email to confirm your account.')
-    setLoading(false)
+    event.preventDefault()
+    if (loading) return
+    setLoading(true)
+    setAuthMessage('')
+
+    if (!supabase) {
+      setAuthMessage('Supabase is not configured in this preview.')
+      setLoading(false)
+      return
+    }
+
+    try {
+      const result = authMode === 'signin'
+        ? await supabase.auth.signInWithPassword({
+            email: authForm.email.trim(),
+            password: authForm.password,
+          })
+        : await supabase.auth.signUp({
+            email: authForm.email.trim(),
+            password: authForm.password,
+            options: {
+              data: { full_name: authForm.fullName.trim() },
+              emailRedirectTo: import.meta.env.VITE_DEV_SUPABASE_REDIRECT_URL
+                || import.meta.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL
+                || `${window.location.origin}/auth/callback`,
+            },
+          })
+
+      if (result.error) {
+        const errorMessage = result.error.message.toLowerCase()
+        if (authMode === 'signin') {
+          setAuthMessage(errorMessage.includes('email not confirmed')
+            ? 'Please confirm your email before signing in.'
+            : 'Invalid email or password.')
+        } else if (errorMessage.includes('rate limit') || errorMessage.includes('too many')) {
+          setAuthMessage('Too many signup emails were requested. Wait a few minutes, then try again, or sign in if you already created this account.')
+        } else if (errorMessage.includes('already') || errorMessage.includes('registered')) {
+          setAuthMessage('An account with this email already exists. Try signing in instead.')
+          setAuthMode('signin')
+        } else if (errorMessage.includes('password')) {
+          setAuthMessage('Use a stronger password with at least 6 characters.')
+        } else {
+          setAuthMessage('We could not create your account. Please try again.')
+        }
+      } else if (authMode === 'signup') {
+        setAuthMessage(result.data.session
+          ? 'Account created. You are now signed in.'
+          : 'Account created. Check your email to confirm your account, then sign in.')
+      }
+    } catch {
+      setAuthMessage('Something went wrong. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   async function submitRequest(event) {
