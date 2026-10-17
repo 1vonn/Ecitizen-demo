@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL")
+}
+
+model Profile {
+  id        String   @id @db.Uuid
+  fullName  String?  @map("full_name")
+  phone     String?
+  role      String   @default("citizen")
+  createdAt DateTime @default(now()) @map("created_at")
+  requests  ServiceRequest[]
+  @@map("profiles")
+}
+
+model ServiceRequest {
+  id          String   @id @default(uuid()) @db.Uuid
+  citizenId   String   @map("citizen_id") @db.Uuid
+  category    String
+  location    String
+  description String
+  imageUrl    String?  @map("image_url")
+  status      String   @default("Pending")
+  adminNote   String?  @map("admin_note")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  citizen     Profile  @relation(fields: [citizenId], references: [id])
+  history     RequestStatusHistory[]
+  @@index([citizenId])
+  @@index([status])
+  @@map("service_requests")
+}
+
+model RequestStatusHistory {
+  id        String   @id @default(uuid()) @db.Uuid
+  requestId String   @map("request_id") @db.Uuid
+  status    String
+  note      String?
+  changedBy String?  @map("changed_by") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at")
+  request   ServiceRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  @@map("request_status_history")
+}
