@@ -42,7 +42,9 @@ export function AuthProvider({ children }) {
               profile?.national_id || sbUser.user_metadata?.national_id || '',
             role: profile?.role || sbUser.user_metadata?.role || 'citizen',
           }
-          await ensureSupabaseProfile(mergedUser)
+          if (!profile) {
+            await ensureSupabaseProfile(mergedUser)
+          }
           if (mounted) {
             setUser(mergedUser)
             setLocalSession(mergedUser)
@@ -206,7 +208,9 @@ export function AuthProvider({ children }) {
         profile?.national_id || sbUser.user_metadata?.national_id || '',
       role: verifiedRole,
     }
-    await ensureSupabaseProfile(signedInUser)
+    if (!profile) {
+      await ensureSupabaseProfile(signedInUser)
+    }
     setUser(signedInUser)
     setLocalSession(signedInUser)
     return { user: signedInUser, error: null }

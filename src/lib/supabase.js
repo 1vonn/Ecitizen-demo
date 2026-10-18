@@ -1,19 +1,30 @@
 import { createClient } from '@supabase/supabase-js'
 
-const DEFAULT_SUPABASE_URL = 'https://apeczjxewxaplosktkuz.supabase.co'
-const DEFAULT_SUPABASE_ANON_KEY =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFwZWN6anhld3hhcGxvc2t0a3V6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIyNjA1ODksImV4cCI6MjEwNzgzNjU4OX0.LTxitV_KGm1qnTFlnGHMolgMZutIhP88YlWMXcMGVWA'
+const ACTIVE_SUPABASE_URL = 'https://apeczjxewxaplosktkuz.supabase.co'
+const ACTIVE_SUPABASE_ANON_KEY =
+  'sb_publishable_SDjJypHUw9FTvySi83AArg_iiT7NLqG'
 
-const supabaseUrl =
+const envUrl =
   import.meta.env.VITE_SUPABASE_URL ||
   import.meta.env.NEXT_PUBLIC_SUPABASE_URL ||
-  DEFAULT_SUPABASE_URL
+  ''
 
-const supabaseKey =
+const envKey =
   import.meta.env.VITE_SUPABASE_ANON_KEY ||
   import.meta.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
   import.meta.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-  DEFAULT_SUPABASE_ANON_KEY
+  ''
+
+// Guard against deprecated/uninitialized Supabase project refs in deployment env vars
+const useActiveProject =
+  !envUrl ||
+  !envKey ||
+  envUrl.includes('your-project-id') ||
+  envUrl.includes('ymievrlmufwjbggyytvn') ||
+  envKey.includes('s5etfFXR65gTeSIIj2M58w')
+
+export const supabaseUrl = useActiveProject ? ACTIVE_SUPABASE_URL : envUrl
+export const supabaseKey = useActiveProject ? ACTIVE_SUPABASE_ANON_KEY : envKey
 
 export const isSupabaseConfigured = Boolean(
   supabaseUrl &&
@@ -25,3 +36,4 @@ export const isSupabaseConfigured = Boolean(
 export const supabase = isSupabaseConfigured
   ? createClient(supabaseUrl, supabaseKey)
   : null
+
