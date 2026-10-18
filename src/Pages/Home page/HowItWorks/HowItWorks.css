@@ -1,0 +1,452 @@
+/* ==============================
+   Process and Benefits Section
+================================= */
+
+.process-section {
+  position: relative;
+  width: 100%;
+  padding: 95px 24px;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 0% 12%,
+      rgba(124, 92, 255, 0.08),
+      transparent 27%
+    ),
+    radial-gradient(
+      circle at 100% 70%,
+      rgba(180, 159, 255, 0.11),
+      transparent 28%
+    ),
+    #fcfbff;
+  font-family: Arial, sans-serif;
+}
+
+.process-container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ==============================
+   Main Heading
+================================= */
+
+.process-heading {
+  max-width: 700px;
+  margin: 0 auto 65px;
+  text-align: center;
+}
+
+.process-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 19px;
+  padding: 9px 15px;
+  color: #5b3cc4;
+  background: #f0eaff;
+  border: 1px solid #e4dafa;
+  border-radius: 30px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.7px;
+}
+
+.process-eyebrow::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  background: #7c5cff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.12);
+}
+
+.process-heading h2 {
+  margin: 0 0 19px;
+  color: #29213f;
+  font-size: clamp(32px, 4.2vw, 46px);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -1.5px;
+}
+
+.process-heading h2 span {
+  color: #6846cc;
+}
+
+.process-heading > p {
+  max-width: 580px;
+  margin: 0 auto;
+  color: #777087;
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+/* ==============================
+   Subheadings
+================================= */
+
+.process-subheading {
+  margin-bottom: 28px;
+}
+
+.process-subheading h3 {
+  margin: 0 0 9px;
+  color: #29213f;
+  font-size: 24px;
+  font-weight: 750;
+  line-height: 1.4;
+  letter-spacing: -0.5px;
+}
+
+.process-subheading p {
+  max-width: 600px;
+  margin: 0;
+  color: #777087;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+/* ==============================
+   How It Works Grid
+================================= */
+
+.process-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.process-step-card {
+  position: relative;
+  min-width: 0;
+  padding: 29px;
+  overflow: hidden;
+  background: linear-gradient(145deg, #ffffff 0%, #f8f5ff 100%);
+  border: 1px solid #e9e2f8;
+  border-radius: 20px;
+  box-shadow: 0 7px 24px rgba(52, 34, 101, 0.035);
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.process-step-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #4b2fa3, #9a83ff);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.process-step-card::after {
+  content: "";
+  position: absolute;
+  right: -35px;
+  bottom: -45px;
+  width: 115px;
+  height: 115px;
+  border: 1px solid rgba(124, 92, 255, 0.08);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.process-step-card:hover {
+  transform: translateY(-6px);
+  border-color: #cbbaf7;
+  box-shadow: 0 18px 38px rgba(75, 47, 163, 0.1);
+}
+
+.process-step-card:hover::before {
+  opacity: 1;
+}
+
+.process-step-top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 27px;
+}
+
+.process-step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 51px;
+  height: 51px;
+  flex-shrink: 0;
+  color: #ffffff;
+  background: linear-gradient(135deg, #4b2fa3, #8665ef);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 16px;
+  box-shadow: 0 7px 16px rgba(75, 47, 163, 0.2);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  transition: transform 0.25s ease;
+}
+
+.process-step-card:hover .process-step-number {
+  transform: rotate(-4deg) scale(1.04);
+}
+
+.process-step-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 10px;
+  color: #746398;
+  background: #f0eaff;
+  border: 1px solid #e8defd;
+  border-radius: 20px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.1px;
+}
+
+.process-step-card h4 {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 12px;
+  color: #2b2341;
+  font-size: 18px;
+  font-weight: 750;
+  line-height: 1.5;
+}
+
+.process-step-card > p {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: #777087;
+  font-size: 13px;
+  line-height: 1.9;
+}
+
+/* ==============================
+   Benefits Section
+================================= */
+
+.process-benefits {
+  margin-top: 85px;
+}
+
+.benefits-heading {
+  margin-bottom: 29px;
+}
+
+.process-benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.process-benefit-card {
+  position: relative;
+  min-width: 0;
+  padding: 25px 22px;
+  background: #ffffff;
+  border: 1px solid #eae4f7;
+  border-radius: 17px;
+  box-shadow: 0 5px 18px rgba(52, 34, 101, 0.025);
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.process-benefit-card:hover {
+  transform: translateY(-5px);
+  border-color: #cbbaf7;
+  box-shadow: 0 14px 30px rgba(75, 47, 163, 0.08);
+}
+
+.process-benefit-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 39px;
+  height: 39px;
+  margin-bottom: 20px;
+  color: #5b3cc4;
+  background: linear-gradient(135deg, #f0eaff, #e8e0ff);
+  border: 1px solid #e1d5ff;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+.process-benefit-card:hover .process-benefit-number {
+  color: #ffffff;
+  background: linear-gradient(135deg, #4b2fa3, #8665ef);
+}
+
+.process-benefit-card h4 {
+  margin: 0 0 10px;
+  color: #302747;
+  font-size: 15px;
+  font-weight: 750;
+  line-height: 1.5;
+}
+
+.process-benefit-card p {
+  margin: 0;
+  color: #777087;
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+/* ==============================
+   Project Disclaimer
+================================= */
+
+.process-disclaimer {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  margin-top: 38px;
+  padding: 19px 22px;
+  background: linear-gradient(100deg, #f6f2ff, #fbfaff);
+  border: 1px solid #e6defa;
+  border-radius: 14px;
+}
+
+.process-disclaimer::before {
+  content: "i";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 23px;
+  height: 23px;
+  flex-shrink: 0;
+  color: #5b3cc4;
+  border: 1px solid #cfc0f7;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.process-disclaimer p {
+  margin: 0;
+  color: #716b80;
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.process-disclaimer strong {
+  color: #4b2fa3;
+}
+
+/* ==============================
+   Tablet Layout
+================================= */
+
+@media (max-width: 1000px) {
+  .process-section {
+    padding: 80px 22px;
+  }
+
+  .process-steps-grid {
+    gap: 17px;
+  }
+
+  .process-step-card {
+    padding: 23px;
+  }
+
+  .process-benefits-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .process-benefit-card {
+    padding: 24px;
+  }
+}
+
+/* ==============================
+   Mobile Layout
+================================= */
+
+@media (max-width: 650px) {
+  .process-section {
+    padding: 62px 16px;
+  }
+
+  .process-heading {
+    margin-bottom: 43px;
+  }
+
+  .process-heading h2 {
+    font-size: 31px;
+    letter-spacing: -0.8px;
+  }
+
+  .process-heading > p {
+    font-size: 14px;
+  }
+
+  .process-subheading h3 {
+    font-size: 21px;
+  }
+
+  .process-steps-grid,
+  .process-benefits-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .process-step-card {
+    padding: 24px;
+    border-radius: 17px;
+  }
+
+  .process-step-top {
+    margin-bottom: 21px;
+  }
+
+  .process-benefits {
+    margin-top: 56px;
+  }
+
+  .process-benefit-card {
+    padding: 22px;
+  }
+
+  .process-disclaimer {
+    margin-top: 28px;
+    padding: 16px;
+  }
+}
+
+/* ==============================
+   Reduced Motion
+================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .process-step-card,
+  .process-step-number,
+  .process-benefit-card,
+  .process-benefit-number {
+    transition: none;
+  }
+
+  .process-step-card:hover,
+  .process-benefit-card:hover,
+  .process-step-card:hover .process-step-number {
+    transform: none;
+  }
+}

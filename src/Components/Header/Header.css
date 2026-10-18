@@ -1,0 +1,421 @@
+
+/* ==============================
+   Header
+================================ */
+.site-header {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.97);
+  border-bottom: 1px solid #eee9fa;
+  box-shadow: 0 4px 20px rgba(48, 32, 95, 0.05);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  font-family: Arial, sans-serif;
+}
+
+.header-content {
+  width: min(1240px, 94%);
+  min-height: 86px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+/* ==============================
+   Brand: HudumaConnect
+================================ */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  text-decoration: none;
+  color: #27203d;
+}
+
+.brand-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #ffffff;
+  background: linear-gradient(135deg, #4a2fa2, #7c5cff);
+  border: 1px solid rgba(74, 47, 162, 0.12);
+  border-radius: 14px;
+  box-shadow: 0 5px 14px rgba(74, 47, 162, 0.2);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.brand:hover .brand-icon {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 17px rgba(74, 47, 162, 0.24);
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.brand-text h2 {
+  margin: 0;
+  color: #4a2fa2;
+  font-size: 20px;
+  font-weight: 750;
+  letter-spacing: -0.65px;
+  line-height: 1.2;
+}
+
+.brand-text span {
+  display: block;
+  margin: 0;
+  color: #81769d;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.65px;
+  line-height: 1.4;
+}
+
+/* ==============================
+   Navigation
+================================ */
+.header-nav {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.header-nav-content {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.header-nav-content li {
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 12px 11px;
+  border-radius: 10px;
+  color: #655d78;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.nav-link svg {
+  flex-shrink: 0;
+}
+
+.nav-link:hover {
+  color: #4a2fa2;
+  background: #f7f3ff;
+}
+
+.nav-link.active {
+  color: #4a2fa2;
+  background: #f0eaff;
+}
+
+.nav-link.active::after {
+  content: "";
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  width: 18px;
+  height: 2px;
+  background: #7c5cff;
+  border-radius: 5px;
+  transform: translateX(-50%);
+}
+
+/* ==============================
+   Login and Get Started
+================================ */
+.header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 9px;
+  flex-shrink: 0;
+}
+
+.login-button,
+.register-button {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 13px;
+  border-radius: 11px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.login-button {
+  color: #4a2fa2;
+  background: #ffffff;
+  border: 1px solid #e5ddfa;
+}
+
+.login-button:hover {
+  color: #39217f;
+  background: #f7f3ff;
+  border-color: #cfc0fa;
+}
+
+.register-button {
+  color: #ffffff;
+  background: linear-gradient(135deg, #4a2fa2, #5b3cc4);
+  border: 1px solid #4a2fa2;
+  box-shadow: 0 4px 11px rgba(74, 47, 162, 0.16);
+}
+
+.register-button:hover {
+  background: linear-gradient(135deg, #39217f, #4a2fa2);
+  box-shadow: 0 7px 16px rgba(74, 47, 162, 0.23);
+  transform: translateY(-1px);
+}
+
+.login-button svg,
+.register-button svg {
+  flex-shrink: 0;
+}
+
+/* ==============================
+   Keyboard Accessibility
+================================ */
+.brand:focus-visible,
+.nav-link:focus-visible,
+.login-button:focus-visible,
+.register-button:focus-visible {
+  outline: 3px solid #b8a6ff;
+  outline-offset: 3px;
+}
+
+/* ==============================
+   Tablets and Smaller Laptops
+================================ */
+@media (max-width: 1100px) {
+  .header-content {
+    width: 95%;
+    gap: 13px;
+  }
+
+  .brand {
+    gap: 9px;
+  }
+
+  .brand-icon {
+    width: 43px;
+    height: 43px;
+    border-radius: 12px;
+  }
+
+  .brand-text h2 {
+    font-size: 18px;
+  }
+
+  .brand-text span {
+    font-size: 8px;
+    letter-spacing: 1.3px;
+  }
+
+  .header-nav-content {
+    gap: 2px;
+  }
+
+  .nav-link {
+    gap: 5px;
+    padding: 10px 8px;
+    font-size: 12px;
+  }
+
+  .header-actions {
+    gap: 6px;
+  }
+
+  .login-button,
+  .register-button {
+    min-height: 39px;
+    gap: 5px;
+    padding: 0 9px;
+    font-size: 12px;
+  }
+}
+
+/* ==============================
+   Mobile and Small Screens
+================================ */
+@media (max-width: 760px) {
+  .header-content {
+    width: 92%;
+    min-height: auto;
+    padding: 13px 0 10px;
+    flex-wrap: wrap;
+    column-gap: 12px;
+    row-gap: 13px;
+  }
+
+  .brand {
+    gap: 9px;
+  }
+
+  .brand-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+  }
+
+  .brand-text h2 {
+    font-size: 18px;
+  }
+
+  .brand-text span {
+    font-size: 8px;
+    letter-spacing: 1.25px;
+  }
+
+  .header-actions {
+    margin-left: auto;
+  }
+
+  .login-button,
+  .register-button {
+    min-height: 38px;
+    padding: 0 10px;
+    font-size: 12px;
+  }
+
+  .header-nav {
+    width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .header-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .header-nav-content {
+    width: max-content;
+    gap: 5px;
+  }
+
+  .nav-link {
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+}
+
+/* ==============================
+   Very Small Screens
+================================ */
+@media (max-width: 420px) {
+  .header-content {
+    width: 94%;
+    column-gap: 7px;
+    row-gap: 12px;
+  }
+
+  .brand {
+    gap: 7px;
+  }
+
+  .brand-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+  }
+
+  .brand-icon svg {
+    width: 23px;
+    height: 23px;
+  }
+
+  .brand-text h2 {
+    font-size: 15px;
+    letter-spacing: -0.4px;
+  }
+
+  .brand-text span {
+    font-size: 7px;
+    letter-spacing: 0.9px;
+  }
+
+  .header-actions {
+    gap: 5px;
+  }
+
+  .login-button,
+  .register-button {
+    min-height: 35px;
+    gap: 4px;
+    padding: 0 7px;
+    border-radius: 9px;
+    font-size: 11px;
+  }
+
+  .login-button svg,
+  .register-button svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .nav-link {
+    gap: 6px;
+    padding: 9px 10px;
+    font-size: 11px;
+  }
+
+  .nav-link svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* ==============================
+   Reduced Motion
+================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
