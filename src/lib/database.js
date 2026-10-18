@@ -16,15 +16,17 @@ export const REQUEST_STATUSES = ['Pending', 'In Progress', 'Resolved']
 
 export const PRIORITY_LEVELS = ['Low', 'Medium', 'High', 'Urgent']
 
-// Clean up any legacy dummy data keys from earlier versions
+// Clean up any legacy dummy data or stale session keys from earlier versions
 try {
   localStorage.removeItem('huduma_service_requests_v1')
   localStorage.removeItem('huduma_users_v1')
+  localStorage.removeItem('huduma_active_session_v2')
+  localStorage.removeItem('sb-ymievrlmufwjbggyytvn-auth-token')
 } catch {
   // Ignore storage errors
 }
 
-const SESSION_KEY = 'huduma_active_session_v2'
+const SESSION_KEY = 'huduma_active_session_v3'
 
 export function getLocalSession() {
   try {
@@ -146,6 +148,23 @@ function normalizeRequestRecord(row, index = 0) {
 }
 
 /**
+ * Fetch user profile from Supabase `profiles` table
+ */
+export async function fetchUserProfile(userId) {
+  if (!isSupabaseConfigured || !supabase || !userId) return null
+  try {
+    const { data } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', userId)
+      .maybeSingle()
+    return data
+  } catch {
+    return null
+  }
+}
+
+/**
  * Ensures a Profile row exists in Supabase `profiles` table for a given user
  * so foreign keys on `service_requests.citizen_id` always succeed.
  */
@@ -168,13 +187,20 @@ export async function ensureSupabaseProfile(user) {
   }
 
   try {
+    // Check if the profile already exists first (e.g. created by Postgres auth trigger)
+    const existing = await fetchUserProfile(user.id)
+    if (existing?.id) {
+      return existing
+    }
+
     const { data, error } = await supabase
       .from('profiles')
-      .upsert(profilePayload, { onConflict: 'id' })
+      .insert(profilePayload)
       .select()
       .maybeSingle()
 
     if (error) {
+      // Fallback minimal insert if optional columns conflict
       await supabase.from('profiles').upsert(
         {
           id: user.id,
@@ -188,23 +214,6 @@ export async function ensureSupabaseProfile(user) {
     return data || profilePayload
   } catch {
     return profilePayload
-  }
-}
-
-/**
- * Fetch user profile from Supabase `profiles` table
- */
-export async function fetchUserProfile(userId) {
-  if (!isSupabaseConfigured || !supabase || !userId) return null
-  try {
-    const { data } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', userId)
-      .maybeSingle()
-    return data
-  } catch {
-    return null
   }
 }
 
