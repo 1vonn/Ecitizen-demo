@@ -1,15 +1,13 @@
-
 import HeroandSearcbar from "./HeroandSearchbar/HeroandSearchbar";
 import ServiceCategories from "./Service Categories/ServiceCategories";
-import HowItWorks from "../Home page/HowItWorks/HowItWorks";
+import HowItWorksSupport from "./HowItWorks/HowItWorksSupport";
+
 function Services() {
   return (
     <>
       <HeroandSearcbar />
-      <ServiceCategories/>
-      <HowItWorks/>
-
-      {/* Add your Service Categories and Available Services here */}
+      <ServiceCategories />
+      <HowItWorksSupport />
     </>
   );
 }

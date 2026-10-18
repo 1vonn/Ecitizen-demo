@@ -1,6 +1,6 @@
 
 import { useMemo, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import "./ServiceCategories.css";
 
 const categories = [
@@ -379,7 +379,13 @@ function ServiceCategories() {
                         </ul>
 
                         <p className="requirements-disclaimer">
-                          These are general examples for this demo.
+                          Ready to proceed?{" "}
+                          <Link
+                            to="/dashboard"
+                            style={{ color: "#5b3cc4", fontWeight: 700 }}
+                          >
+                            Submit a request in the Citizen Portal →
+                          </Link>
                         </p>
                       </div>
                     )}

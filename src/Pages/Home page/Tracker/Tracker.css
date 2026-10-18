@@ -307,7 +307,8 @@
   border-radius: 50%;
 }
 
-.status-submitted {
+.status-submitted,
+.status-pending {
   color: #8054b7;
   background: #f2eaff;
 }
@@ -317,7 +318,8 @@
   background: #fff4d9;
 }
 
-.status-approved {
+.status-approved,
+.status-resolved {
   color: #18784e;
   background: #e3f8ed;
 }

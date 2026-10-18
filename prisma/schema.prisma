@@ -3,45 +3,61 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("POSTGRES_PRISMA_URL")
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 model Profile {
-  id        String   @id @db.Uuid
-  fullName  String?  @map("full_name")
-  phone     String?
-  role      String   @default("citizen")
-  createdAt DateTime @default(now()) @map("created_at")
-  requests  ServiceRequest[]
+  id         String           @id @db.Uuid
+  email      String?          @unique
+  fullName   String?          @map("full_name")
+  phone      String?
+  nationalId String?          @map("national_id")
+  role       String           @default("citizen") // "citizen" | "admin"
+  createdAt  DateTime         @default(now()) @map("created_at")
+  updatedAt  DateTime         @default(now()) @updatedAt @map("updated_at")
+  requests   ServiceRequest[]
+
+  @@index([role])
   @@map("profiles")
 }
 
 model ServiceRequest {
-  id          String   @id @default(uuid()) @db.Uuid
-  citizenId   String   @map("citizen_id") @db.Uuid
-  category    String
-  location    String
-  description String
-  imageUrl    String?  @map("image_url")
-  status      String   @default("Pending")
-  adminNote   String?  @map("admin_note")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
-  citizen     Profile  @relation(fields: [citizenId], references: [id])
-  history     RequestStatusHistory[]
+  id              String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  referenceNumber String?                @unique @map("reference_number")
+  citizenId       String                 @map("citizen_id") @db.Uuid
+  citizenName     String?                @map("citizen_name")
+  citizenEmail    String?                @map("citizen_email")
+  title           String?
+  category        String
+  location        String
+  description     String
+  imageUrl        String?                @map("image_url")
+  priority        String                 @default("Medium") // "Low" | "Medium" | "High" | "Urgent"
+  status          String                 @default("Pending") // "Pending" | "In Progress" | "Resolved"
+  adminNote       String?                @map("admin_note")
+  createdAt       DateTime               @default(now()) @map("created_at")
+  updatedAt       DateTime               @default(now()) @updatedAt @map("updated_at")
+  citizen         Profile                @relation(fields: [citizenId], references: [id], onDelete: Cascade)
+  history         RequestStatusHistory[]
+
   @@index([citizenId])
   @@index([status])
+  @@index([category])
+  @@index([referenceNumber])
   @@map("service_requests")
 }
 
 model RequestStatusHistory {
-  id        String   @id @default(uuid()) @db.Uuid
-  requestId String   @map("request_id") @db.Uuid
-  status    String
+  id        String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  requestId String         @map("request_id") @db.Uuid
+  status    String         // "Pending" | "In Progress" | "Resolved"
   note      String?
-  changedBy String?  @map("changed_by") @db.Uuid
-  createdAt DateTime @default(now()) @map("created_at")
+  changedBy String?        @map("changed_by") @db.Uuid
+  createdAt DateTime       @default(now()) @map("created_at")
   request   ServiceRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+
+  @@index([requestId])
   @@map("request_status_history")
 }

@@ -1,5 +1,5 @@
-
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import "./Header.css";
 
 function HeaderIcon({ name, size = 20 }) {
@@ -31,11 +31,22 @@ function HeaderIcon({ name, size = 20 }) {
         <rect x="14" y="14" width="6" height="6" rx="1.5" />
       </>
     ),
+    submit: (
+      <>
+        <path d="M12 5v14M5 12h14" />
+      </>
+    ),
     track: (
       <>
         <circle cx="11" cy="11" r="7" />
         <path d="m16 16 4 4" />
         <path d="M11 7v4l3 2" />
+      </>
+    ),
+    admin: (
+      <>
+        <path d="M12 3 20 6v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3Z" />
+        <path d="m9 12 2 2 4-4" />
       </>
     ),
     about: (
@@ -59,6 +70,13 @@ function HeaderIcon({ name, size = 20 }) {
         <path d="M18 15.5v3M16.5 17h3" />
       </>
     ),
+    logout: (
+      <>
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+        <polyline points="16 17 21 12 16 7" />
+        <line x1="21" y1="12" x2="9" y2="12" />
+      </>
+    ),
     logo: (
       <>
         <path d="M3 10 12 3l9 7" />
@@ -74,18 +92,23 @@ function HeaderIcon({ name, size = 20 }) {
 
 function Header() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, signOut } = useAuth();
 
   const isActive = (path) =>
     location.pathname === path ? "nav-link active" : "nav-link";
 
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
+  };
+
+  const firstName = user?.fullName?.split(" ")[0] || "Citizen";
+
   return (
     <header className="site-header">
       <div className="header-content">
-        <Link
-          to="/"
-          className="brand"
-          aria-label="HudumaConnect home"
-        >
+        <Link to="/" className="brand" aria-label="HudumaConnect home">
           <div className="brand-icon">
             <HeaderIcon name="logo" size={27} />
           </div>
@@ -114,6 +137,16 @@ function Header() {
 
             <li>
               <Link
+                to="/dashboard"
+                className={isActive("/dashboard")}
+              >
+                <HeaderIcon name="submit" size={18} />
+                <span>Submit Request</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link
                 to="/track-request"
                 className={isActive("/track-request")}
               >
@@ -121,6 +154,15 @@ function Header() {
                 <span>Track Request</span>
               </Link>
             </li>
+
+            {user?.role === "admin" && (
+              <li>
+                <Link to="/admin" className={isActive("/admin")}>
+                  <HeaderIcon name="admin" size={18} />
+                  <span>Admin</span>
+                </Link>
+              </li>
+            )}
 
             <li>
               <Link to="/about" className={isActive("/about")}>
@@ -132,15 +174,45 @@ function Header() {
         </nav>
 
         <div className="header-actions">
-          <Link to="/login" className="login-button">
-            <HeaderIcon name="user" size={18} />
-            <span>Login</span>
-          </Link>
+          {user ? (
+            <>
+              <Link
+                to={user.role === "admin" ? "/admin" : "/dashboard"}
+                className="header-user-pill"
+                title="Open your portal dashboard"
+              >
+                <span className="header-user-avatar">
+                  {firstName.charAt(0).toUpperCase()}
+                </span>
+                <span className="header-user-meta">
+                  <strong>{firstName}</strong>
+                  <small>{user.role === "admin" ? "Admin" : "Citizen"}</small>
+                </span>
+              </Link>
 
-          <Link to="/register" className="register-button">
-            <span>Get Started</span>
-            <HeaderIcon name="register" size={18} />
-          </Link>
+              <button
+                type="button"
+                onClick={handleSignOut}
+                className="login-button logout-btn"
+                title="Sign out"
+              >
+                <HeaderIcon name="logout" size={17} />
+                <span>Sign Out</span>
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="login-button">
+                <HeaderIcon name="user" size={18} />
+                <span>Sign In</span>
+              </Link>
+
+              <Link to="/register" className="register-button">
+                <span>Sign Up</span>
+                <HeaderIcon name="register" size={18} />
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>

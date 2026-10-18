@@ -1,37 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import {
+  fetchServiceRequests,
+  findRequestByReference,
+} from "../../../lib/database";
 import "./Tracker.css";
 
 function Tracker() {
-  const [referenceNumber, setReferenceNumber] = useState("");
+  const [searchParams] = useSearchParams();
+  const initialRef = searchParams.get("ref") || "";
+
+  const [referenceNumber, setReferenceNumber] = useState(initialRef);
   const [requestStatus, setRequestStatus] = useState(null);
+  const [recentReferences, setRecentReferences] = useState([]);
   const [error, setError] = useState("");
+  const [searching, setSearching] = useState(false);
 
-  const sampleRequests = {
-    PSR2026001: {
-      service: "Business Permit",
-      status: "In Progress",
-      message:
-        "Your request is being reviewed by the relevant department.",
-      date: "12 October 2026",
-    },
-    PSR2026002: {
-      service: "Birth Certificate",
-      status: "Approved",
-      message: "Your request has been approved.",
-      date: "14 October 2026",
-    },
-    PSR2026003: {
-      service: "Public Complaint",
-      status: "Submitted",
-      message: "Your request has been received and is awaiting review.",
-      date: "16 October 2026",
-    },
-  };
-
-  const handleTrackRequest = (event) => {
-    event.preventDefault();
-
-    const reference = referenceNumber.trim().toUpperCase();
+  const lookupReference = async (refToFind) => {
+    const reference = (refToFind || "").trim().toUpperCase();
 
     if (!reference) {
       setError("Please enter your request reference number.");
@@ -39,47 +25,91 @@ function Tracker() {
       return;
     }
 
-    const request = sampleRequests[reference];
+    setSearching(true);
+    try {
+      const found = await findRequestByReference(reference);
+      if (found) {
+        const statusMsg =
+          found.adminNote ||
+          (found.status === "Resolved"
+            ? "Your service request has been resolved and closed."
+            : found.status === "In Progress"
+            ? "Your request is currently in progress with the assigned department."
+            : "Your request has been received and is pending officer review.");
 
-    if (request) {
-      setRequestStatus({
-        reference,
-        ...request,
-      });
-      setError("");
-    } else {
-      setRequestStatus(null);
-      setError(
-        "No demonstration request was found. Check the reference number or try one of the examples below."
-      );
+        setRequestStatus({
+          reference: found.referenceNumber,
+          service: `${found.category} (${found.location})`,
+          title: found.title,
+          description: found.description,
+          imageUrl: found.imageUrl,
+          status: found.status,
+          message: statusMsg,
+          date: new Date(
+            found.updatedAt || found.createdAt
+          ).toLocaleDateString("en-GB", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          }),
+        });
+        setError("");
+      } else {
+        setRequestStatus(null);
+        setError(
+          "No service request was found for that reference number. Please check the reference code issued when you submitted your request."
+        );
+      }
+    } finally {
+      setSearching(false);
     }
+  };
+
+  useEffect(() => {
+    fetchServiceRequests().then((all) => {
+      const refs = all
+        .map((r) => r.referenceNumber)
+        .filter(Boolean)
+        .slice(0, 6);
+      setRecentReferences(refs);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (initialRef) {
+      lookupReference(initialRef);
+    }
+  }, [initialRef]);
+
+  const handleTrackRequest = (event) => {
+    event.preventDefault();
+    lookupReference(referenceNumber);
   };
 
   const progressSteps = [
     {
-      title: "Request Submitted",
-      description: "Your request has been received.",
+      title: "Pending",
+      description: "Your request has been logged and awaits assignment.",
     },
     {
-      title: "Under Review",
-      description: "The request is being reviewed.",
+      title: "In Progress",
+      description: "County service team is actively working on your case.",
     },
     {
-      title: "Decision Made",
-      description: "A decision has been recorded.",
+      title: "Resolved",
+      description: "Issue has been addressed and verified.",
     },
   ];
 
   const getProgress = (status) => {
-    if (status === "Approved") return 3;
+    if (status === "Resolved" || status === "Approved") return 3;
     if (status === "In Progress") return 2;
     return 1;
   };
 
   const tryExample = (reference) => {
     setReferenceNumber(reference);
-    setRequestStatus(null);
-    setError("");
+    lookupReference(reference);
   };
 
   return (
@@ -89,7 +119,7 @@ function Tracker() {
         <div className="tracker-heading">
           <span className="tracker-eyebrow">
             <span className="tracker-eyebrow-dot"></span>
-            REQUEST TRACKING
+            REAL-TIME REQUEST TRACKING
           </span>
 
           <h2>
@@ -97,8 +127,10 @@ function Tracker() {
           </h2>
 
           <p>
-            Stay up to date with your service request. Enter your
-            reference number to explore its current status.
+            Stay up to date with your public service request. Enter your
+            reference number to track its progress from{" "}
+            <strong>Pending</strong> → <strong>In Progress</strong> →{" "}
+            <strong>Resolved</strong>.
           </p>
         </div>
 
@@ -122,9 +154,10 @@ function Tracker() {
               </div>
 
               <div>
-                <h3>Check your request</h3>
+                <h3>Check your request status</h3>
                 <p>
-                  Use the reference number from your confirmation.
+                  Enter the reference number issued when you submitted your
+                  service request.
                 </p>
               </div>
             </div>
@@ -155,11 +188,15 @@ function Tracker() {
               </div>
 
               <small id="tracker-help" className="tracker-help">
-                Your reference number is unique to your request.
+                Your reference number is unique to your submitted request.
               </small>
 
-              <button type="submit" className="tracker-button">
-                <span>Check status</span>
+              <button
+                type="submit"
+                className="tracker-button"
+                disabled={searching}
+              >
+                <span>{searching ? "Checking..." : "Check status"}</span>
                 <span aria-hidden="true">→</span>
               </button>
             </form>
@@ -197,7 +234,7 @@ function Tracker() {
 
                 <div className="tracker-result-details">
                   <div>
-                    <span>Service</span>
+                    <span>Category &amp; Location</span>
                     <strong>{requestStatus.service}</strong>
                   </div>
 
@@ -216,9 +253,9 @@ function Tracker() {
 
                 <div className="tracker-progress">
                   <div className="tracker-progress-heading">
-                    <h4>Request progress</h4>
+                    <h4>Status progression</h4>
                     <span>
-                      {getProgress(requestStatus.status)} of 3 stages
+                      Stage {getProgress(requestStatus.status)} of 3
                     </span>
                   </div>
 
@@ -263,21 +300,23 @@ function Tracker() {
               </div>
             )}
 
-            <div className="tracker-sample">
-              <span>Try a demo reference</span>
+            {recentReferences.length > 0 && (
+              <div className="tracker-sample">
+                <span>Your recent submitted references</span>
 
-              <div className="tracker-sample-buttons">
-                {Object.keys(sampleRequests).map((reference) => (
-                  <button
-                    key={reference}
-                    type="button"
-                    onClick={() => tryExample(reference)}
-                  >
-                    {reference}
-                  </button>
-                ))}
+                <div className="tracker-sample-buttons">
+                  {recentReferences.map((reference) => (
+                    <button
+                      key={reference}
+                      type="button"
+                      onClick={() => tryExample(reference)}
+                    >
+                      {reference}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
           {/* Helpful side panel */}
@@ -296,39 +335,51 @@ function Tracker() {
               </svg>
             </div>
 
-            <span className="tracker-side-label">SIMPLE & TRANSPARENT</span>
+            <span className="tracker-side-label">SIMPLE &amp; TRANSPARENT</span>
 
             <h3>Know where things stand.</h3>
 
             <p>
-              Request tracking helps you understand the different stages
-              a service request may pass through.
+              Every submitted request receives a unique reference code and
+              moves through three transparent stages:
             </p>
 
             <div className="tracker-benefit">
-              <span className="benefit-check">✓</span>
+              <span className="benefit-check">1</span>
               <div>
-                <strong>Easy to check</strong>
-                <p>Use your reference number to look up a demo request.</p>
+                <strong>Pending</strong>
+                <p>Request logged by citizen and queued for county officer review.</p>
+              </div>
+            </div>
+
+            <div className="tracker-benefit">
+              <span className="benefit-check">2</span>
+              <div>
+                <strong>In Progress</strong>
+                <p>Assigned field team is actively addressing the reported issue.</p>
               </div>
             </div>
 
             <div className="tracker-benefit">
               <span className="benefit-check">✓</span>
               <div>
-                <strong>Clear status updates</strong>
-                <p>See whether a sample request is submitted, in review, or approved.</p>
+                <strong>Resolved</strong>
+                <p>Issue resolved with official admin confirmation notes.</p>
               </div>
             </div>
 
             <div className="tracker-side-note">
-             
-  <span aria-hidden="true">i</span>
-  <p>
-    Demo mode: Request statuses shown are examples.
-  </p>
-</div>
-    
+              <span aria-hidden="true">+</span>
+              <p>
+                Need to report a new issue?{" "}
+                <Link
+                  to="/dashboard"
+                  style={{ color: "#ffffff", fontWeight: 700 }}
+                >
+                  Submit a Service Request →
+                </Link>
+              </p>
+            </div>
           </aside>
         </div>
       </div>

@@ -24,7 +24,11 @@ function Hero() {
           </p>
 
           <div className="hero-buttons">
-            <Link to="/services" className="hero-btn hero-btn-primary">
+            <Link to="/dashboard" className="hero-btn hero-btn-primary">
+              Submit a Request
+            </Link>
+
+            <Link to="/services" className="hero-btn hero-btn-secondary">
               Explore Services
             </Link>
 
@@ -55,7 +59,11 @@ function Hero() {
               <div className="hero-card-symbol">HC</div>
             </div>
 
-            <div className="hero-service-item">
+            <Link
+              to="/services"
+              className="hero-service-item"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
               <div className="hero-service-icon purple-bg">01</div>
 
               <div className="hero-service-text">
@@ -64,29 +72,37 @@ function Hero() {
               </div>
 
               <span className="hero-arrow">→</span>
-            </div>
+            </Link>
 
-            <div className="hero-service-item">
+            <Link
+              to="/dashboard"
+              className="hero-service-item"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
               <div className="hero-service-icon blue-bg">02</div>
 
               <div className="hero-service-text">
                 <h4>Submit a Request</h4>
-                <p>Explore the request process</p>
+                <p>Report streetlight, water, or waste issues</p>
               </div>
 
               <span className="hero-arrow">→</span>
-            </div>
+            </Link>
 
-            <div className="hero-service-item">
+            <Link
+              to="/track-request"
+              className="hero-service-item"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
               <div className="hero-service-icon green-bg">03</div>
 
               <div className="hero-service-text">
                 <h4>Track Progress</h4>
-                <p>Check a sample request status</p>
+                <p>Pending → In Progress → Resolved</p>
               </div>
 
               <span className="hero-arrow">→</span>
-            </div>
+            </Link>
 
             <div className="hero-card-footer">
               Your services, one convenient portal.
