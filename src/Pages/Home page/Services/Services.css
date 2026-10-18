@@ -3,10 +3,21 @@
    SERVICES SECTION
 ========================= */
 
+
 .services-section {
   width: 100%;
   padding: 85px 24px;
-  background: #f8f6ff;
+
+  background:
+    linear-gradient(
+     rgba(248, 246, 255, 0.25),
+      rgba(248, 246, 255, 0.25)
+    ),
+    url("/src/Images/service\ 2.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   font-family: Arial, sans-serif;
   overflow: hidden;
 }

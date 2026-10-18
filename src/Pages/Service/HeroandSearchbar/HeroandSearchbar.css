@@ -214,86 +214,6 @@
 }
 
 /* ==============================
-   SEARCH SUGGESTIONS
-================================ */
-
-.services-popular-searches {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 9px;
-
-  margin-top: 20px;
-}
-
-.services-popular-searches > span {
-  margin-right: 3px;
-
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.services-search-tag {
-  padding: 8px 12px;
-
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 30px;
-  background: rgba(255, 255, 255, 0.12);
-
-  color: #ffffff;
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 500;
-
-  cursor: pointer;
-
-  transition:
-    background 0.2s ease,
-    border-color 0.2s ease;
-}
-
-.services-search-tag:hover {
-  border-color: rgba(255, 255, 255, 0.75);
-  background: rgba(255, 255, 255, 0.22);
-}
-
-/* ==============================
-   NOTE BELOW SEARCH
-================================ */
-
-.services-hero-note {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-
-  margin-top: 30px;
-
-  color: rgba(255, 255, 255, 0.95);
-  font-size: 15px;
-  line-height: 1.7;
-  font-weight: 500;
-}
-
-.services-note-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-
-  width: 23px;
-  height: 23px;
-
-  border: 1px solid rgba(168, 241, 198, 0.55);
-  border-radius: 50%;
-  background: rgba(168, 241, 198, 0.12);
-
-  color: #a8f1c6;
-  font-size: 12px;
-  font-weight: 800;
-}
-
-/* ==============================
    RIGHT SIDE SERVICE CARD
 ================================ */
 
@@ -390,7 +310,7 @@
   border-bottom: 1px solid #eee9f7;
 
   color: #817a91;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.7;
 }
 
@@ -467,7 +387,7 @@
   margin: 0;
 
   color: #8b849b;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.5;
 }
 
@@ -504,66 +424,10 @@
   background: #e4f8ed;
 
   color: #258858;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 800;
 }
 
-/* ==============================
-   FLOATING DECORATIVE CARD
-================================ */
-
-.services-floating-card {
-  position: absolute;
-  z-index: 3;
-
-  right: -10px;
-  bottom: 10px;
-
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  padding: 14px 18px;
-
-  border: 1px solid rgba(255, 255, 255, 0.75);
-  border-radius: 15px;
-  background: #ffffff;
-
-  box-shadow: 0 14px 40px rgba(19, 10, 48, 0.2);
-
-  color: #30234c;
-}
-
-.services-floating-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 38px;
-  height: 38px;
-
-  border-radius: 11px;
-  background: #eee8ff;
-
-  color: #4a2fa2;
-  font-size: 25px;
-}
-
-.services-floating-card strong,
-.services-floating-card span {
-  display: block;
-}
-
-.services-floating-card strong {
-  margin-bottom: 4px;
-  font-size: 12px;
-  font-weight: 800;
-}
-
-.services-floating-card span {
-  color: #898197;
-  font-size: 10px;
-}
 
 /* Decorative circles */
 
