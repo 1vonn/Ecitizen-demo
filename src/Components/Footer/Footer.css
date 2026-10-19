@@ -58,7 +58,7 @@
 .footer-brand-text h2 {
   margin: 0 0 5px;
   color: #ffffff;
-  font-size: 19px;
+  font-size: 20px;
   font-weight: 700;
   letter-spacing: -0.4px;
 }
@@ -79,6 +79,7 @@
   margin: 0;
   color: #c2bbd6;
   font-size: 13px;
+   font-weight: 600;
   line-height: 1.9;
 }
 
@@ -117,6 +118,7 @@
   margin: 0;
   padding: 0;
   list-style: none;
+  
 }
 
 .footer-column li {
@@ -128,6 +130,7 @@
   display: inline-block;
   color: #c2bbd6;
   font-size: 12px;
+   font-weight: 600;
   line-height: 1.7;
   text-decoration: none;
   transition: color 0.2s ease, transform 0.2s ease;
@@ -147,6 +150,7 @@
   color: #c2bbd6;
   font-size: 12px;
   line-height: 1.9;
+   font-weight: 600;
 }
 
 .footer-demo-badge {
@@ -162,29 +166,7 @@
   letter-spacing: 0.2px;
 }
 
-/* ========================================
-   Project Disclaimer
-======================================== */
 
-.footer-disclaimer {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 19px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.footer-disclaimer p {
-  margin: 0;
-  color: #c2bbd6;
-  font-size: 11px;
-  line-height: 1.9;
-}
-
-.footer-disclaimer strong {
-  color: #e0d7ff;
-  font-weight: 700;
-}
 
 /* ========================================
    Footer Bottom Bar
@@ -206,6 +188,7 @@
   color: #aaa1c5;
   font-size: 11px;
   line-height: 1.8;
+   font-weight: 700;
 }
 
 /* ========================================

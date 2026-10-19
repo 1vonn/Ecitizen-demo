@@ -12,20 +12,18 @@ function Hero() {
           </span>
 
           <h1>
-            Public Services,
-            <span> Made Simpler.</span>
+            Your Community,
+            <span> Your Voice. Our Action.</span>
           </h1>
 
           <p className="hero-description">
-            Explore public services, submit sample service requests,
-            and track their progress in one convenient place.
-            HudumaConnect demonstrates how digital technology can
-            make accessing public services easier.
+            Report community issues, track service requests
+      , and help make your neigborhood a better place.
           </p>
 
           <div className="hero-buttons">
             <Link to="/dashboard" className="hero-btn hero-btn-primary">
-              Submit a Request
+              Submit a Service Request
             </Link>
 
             <Link to="/services" className="hero-btn hero-btn-secondary">
@@ -82,8 +80,8 @@ function Hero() {
               <div className="hero-service-icon blue-bg">02</div>
 
               <div className="hero-service-text">
-                <h4>Submit a Request</h4>
-                <p>Report streetlight, water, or waste issues</p>
+                <h4>Submit a Service Request</h4>
+                <p>Report streetlight, water, waste issues, etc.</p>
               </div>
 
               <span className="hero-arrow">→</span>

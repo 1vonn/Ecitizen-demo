@@ -19,9 +19,9 @@ function Footer() {
           </Link>
 
           <p className="footer-description">
-            A demonstration platform designed to make exploring public
-            service information, submitting requests, and tracking progress
-            simpler and more convenient.
+           Huduma Connect empowers communities to report local issues, track service requests, 
+           and make their voices heard. Together, we can build better neighbourhoods through community
+            participation and responsive action.
           </p>
         </div>
 
@@ -40,10 +40,12 @@ function Footer() {
         <div className="footer-column">
           <h3>Service Categories</h3>
           <ul>
+            <li><Link to="/services">Broken Streetlights</Link></li>
+            <li><Link to="/services">Water & Sanitation</Link></li>
+            <li><Link to="/services">Garbage Collection</Link></li>
+            <li><Link to="/services">Road & Transport</Link></li>
+            <li><Link to="/services">Drainage & Sewage</Link></li>
             <li><Link to="/services">Business Permits</Link></li>
-            <li><Link to="/services">Birth Certificates</Link></li>
-            <li><Link to="/services">Land Services</Link></li>
-            <li><Link to="/services">Public Complaints</Link></li>
           </ul>
         </div>
 

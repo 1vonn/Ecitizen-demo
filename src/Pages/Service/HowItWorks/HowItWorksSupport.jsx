@@ -138,9 +138,9 @@ function HowItWorksSupport() {
               </span>
             </div>
 
-            <Link to="/services" className="how-bottom-link">
+            {/* <Link to="/services" className="how-bottom-link">
               Explore services <span aria-hidden="true">↗</span>
-            </Link>
+            </Link> */}
           </div>
         </div>
 
@@ -248,16 +248,16 @@ function HowItWorksSupport() {
           </div>
         </div>
 
-        {/* Demonstration notice */}
+     
         <div className="how-support-disclaimer">
-          <span aria-hidden="true">ⓘ</span>
-
+          {/* <span aria-hidden="true">ⓘ</span> */}
+{/* 
           <p>
             <strong>Demo project notice:</strong> These steps illustrate a
             typical digital request journey. Actual submission, reference
             numbers, status updates, and support services depend on the
             features implemented in this demonstration.
-          </p>
+          </p> */}
         </div>
       </div>
     </section>
